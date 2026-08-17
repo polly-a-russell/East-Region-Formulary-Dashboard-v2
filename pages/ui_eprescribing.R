@@ -92,6 +92,7 @@ ui_eprescribing <- tabPanel(title = "E-Prescribing data",
                 ),
                 
                 column(3,
+                       p(HTML("&nbsp;")),
                        actionButton("reset_epr_board", "Reset input") 
                 )
                  ),
@@ -162,6 +163,7 @@ ui_eprescribing <- tabPanel(title = "E-Prescribing data",
                 ),
                 
             column(3, 
+                   p(HTML("&nbsp;")),
                actionButton("reset_epr_cluster", "Reset input") 
                 )
              ),
@@ -231,6 +233,7 @@ ui_eprescribing <- tabPanel(title = "E-Prescribing data",
                          `actions-box` = TRUE)) ##buttons to the top of the dropdown menu (Select All & Deselect All)
                ),
               column(3,
+                     p(HTML("&nbsp;")),
                      actionButton("reset_epr_practice", "Reset input") 
               )
               ),

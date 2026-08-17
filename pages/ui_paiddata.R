@@ -95,7 +95,7 @@ mainPanel(width = 12,         #mainPanel needs to come first before conditionalP
                  multiple = TRUE)
       ),
       column(3,
-             br(),
+             p(HTML("&nbsp;")),
              actionButton("reset_paid_board", "Reset input") 
       )
       
@@ -178,6 +178,8 @@ mainPanel(width = 12,         #mainPanel needs to come first before conditionalP
                    multiple = TRUE)
           ),
           column(3,
+                 
+                 p(HTML("&nbsp;")),
                  actionButton("reset_paid_cluster", "Reset input") 
           )
           
@@ -256,6 +258,8 @@ mainPanel(width = 12,         #mainPanel needs to come first before conditionalP
                   multiple = TRUE)
          ),
          column(3,
+                
+                p(HTML("&nbsp;")),
                 actionButton("reset_paid_practice", "Reset input") 
          )
          

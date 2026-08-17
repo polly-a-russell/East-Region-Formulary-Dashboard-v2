@@ -59,6 +59,7 @@ ui_top10 <- tabPanel(title = "Top 20 Non-Formulary Items",
                          multiple = FALSE)
                 ),
                 column(3,
+                       p(HTML("&nbsp;")),
                        actionButton("reset_top", "Reset input") 
                 )
                 
