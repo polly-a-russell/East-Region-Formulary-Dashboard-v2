@@ -28,6 +28,7 @@ library(phsmethods)
 library(phsstyles)
 library(DT)
 library("arrow")
+library(htmltools)
 
 ##############################################  
 ####functions

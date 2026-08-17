@@ -68,6 +68,13 @@ mainPanel(width = 12,         #mainPanel needs to come first before conditionalP
                multiple = FALSE)
             ),
        column(3, 
+              
+              # selectInput(
+              #   inputId = "paid_board_date_min",
+              #   "Select time period start point:",
+              #   choices = c("1", "2"),
+              #   multiple = FALSE
+              # ), # end selectInput paid_board_date_min
  
               sliderInput("trend_Dates_paid_board", 
               "Select time period:",
@@ -88,6 +95,7 @@ mainPanel(width = 12,         #mainPanel needs to come first before conditionalP
                  multiple = TRUE)
       ),
       column(3,
+             br(),
              actionButton("reset_paid_board", "Reset input") 
       )
       
