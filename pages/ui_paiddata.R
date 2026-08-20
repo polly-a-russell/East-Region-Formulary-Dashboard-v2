@@ -69,12 +69,21 @@ mainPanel(width = 12,         #mainPanel needs to come first before conditionalP
             ),
        column(3, 
               
-              # selectInput(
-              #   inputId = "paid_board_date_min",
-              #   "Select time period start point:",
-              #   choices = c("1", "2"),
-              #   multiple = FALSE
-              # ), # end selectInput paid_board_date_min
+              selectInput(
+                inputId = "paid_board_date_min",
+                label = "Select time period start point:",
+                choices = c(1:5),
+                multiple = FALSE,
+                selectize = FALSE
+              ), # end selectInput paid_board_date_min
+              
+              selectInput(
+                inputId = "paid_board_date_max",
+                label = "Select time period end point:",
+                choices = c(1:5),
+                multiple = FALSE,
+                selectize = FALSE
+              ), # end selectInput paid_board_date_min
  
               sliderInput("trend_Dates_paid_board", 
               "Select time period:",
