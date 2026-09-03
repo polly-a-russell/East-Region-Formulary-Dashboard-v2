@@ -178,4 +178,17 @@ list_dates_paid_cluster_desc <- cluster_formulary_paiddata %>%
   unique() %>% 
   arrange(desc(paid_calendar_month_and_year)) %>% pull()
 
+
+
+#practice_formulary_paiddata$paid_calendar_month_and_year
+list_dates_paid_practice_asc <- practice_formulary_paiddata %>%
+  select(paid_calendar_month_and_year) %>%
+  unique() %>%
+  arrange(paid_calendar_month_and_year) %>% pull()
+
+list_dates_paid_practice_desc <- practice_formulary_paiddata %>%
+  select(paid_calendar_month_and_year) %>%
+  unique() %>%
+  arrange(desc(paid_calendar_month_and_year)) %>% pull()
+
           

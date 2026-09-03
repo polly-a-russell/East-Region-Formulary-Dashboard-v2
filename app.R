@@ -3,7 +3,7 @@
 # Original author(s): Johanna Jokio & Aidan Tait
 # Original date: 2025-11
 # Written/run on R 4.4.2
-# needs 1CPU approx 4MB memory
+# needs 1CPU approx 7MB memory
  
 ##########################################################
 

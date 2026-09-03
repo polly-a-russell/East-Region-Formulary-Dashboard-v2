@@ -257,16 +257,25 @@ mainPanel(width = 12,         #mainPanel needs to come first before conditionalP
       
          ),
          column(3, 
-                #slider for dates.
+                #slider for dates
                 
-                sliderInput("trend_Dates_paid_practice", 
-                            "Select time period:",
-                            min = min(practice_formulary_paiddata$paid_calendar_month_and_year), #selects minimum date in trenddata.
-                            max = max(practice_formulary_paiddata$paid_calendar_month_and_year), #selects maximum date in trenddata.
-                            value=c(min(practice_formulary_paiddata$paid_calendar_month_and_year),
-                                    max(practice_formulary_paiddata$paid_calendar_month_and_year)), 
-                            ticks = FALSE,
-                            timeFormat="%b %Y")
+                selectInput(
+                  inputId = "paid_practice_date_min",
+                  label = "Select time period start point:",
+                  choices = list_dates_paid_practice_asc,
+                  selected = min(practice_formulary_paiddata$paid_calendar_month_and_year),
+                  multiple = FALSE,
+                  selectize = FALSE
+                ), # end selectInput paid_board_date_min
+
+                selectInput(
+                  inputId = "paid_practice_date_max",
+                  label = "Select time period end point:",
+                  choices = list_dates_paid_practice_desc,
+                  selected = max(practice_formulary_paiddata$paid_calendar_month_and_year),
+                  multiple = FALSE,
+                  selectize = FALSE
+                ) # end selectInput paid_board_date_max
          ),
          #         
          column(3,   

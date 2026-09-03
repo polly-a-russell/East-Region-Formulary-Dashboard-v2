@@ -69,13 +69,6 @@ observeEvent(
     updateSelectInput(session, 'paid_board_date_min', selected = min(board_formulary_paiddata$paid_calendar_month_and_year))
     updateSelectInput(session, 'paid_board_date_max', selected = max(board_formulary_paiddata$paid_calendar_month_and_year))
     
-    
-    # updateSliderInput(session, "trend_Dates_paid_board", 
-    #                             value = c(min(board_formulary_paiddata$paid_calendar_month_and_year),
-    #                              max(board_formulary_paiddata$paid_calendar_month_and_year)),
-    #                               timeFormat="%b %Y")
-    
-    
     updatePickerInput(session, "trend_measure_paid_board", selected = "Percentage of formulary items")
     updatePickerInput(session, "trend_paid_board", selected = "Region")
     
@@ -90,10 +83,6 @@ observeEvent(
     updateSelectInput(session, 'cluster_formulary_paiddata', selected = min(cluster_formulary_paiddata$paid_calendar_month_and_year))
     updateSelectInput(session, 'cluster_formulary_paiddata', selected = max(cluster_formulary_paiddata$paid_calendar_month_and_year))
     
-    updateSliderInput(session, "trend_Dates_paid_cluster", 
-                              value = c(min(cluster_formulary_paiddata$paid_calendar_month_and_year),
-                                                                   max(cluster_formulary_paiddata$paid_calendar_month_and_year)),
-                                                                    timeFormat="%b %Y")
     updatePickerInput(session, "trend_measure_paid_cluster", selected = "Percentage of formulary items")
     updatePickerInput(session, "trend_paid_cluster", selected = unique(cluster_formulary_paiddata$cluster)[1])
   }
@@ -103,10 +92,10 @@ observeEvent(
   
   input$reset_paid_practice, {
     updateSelectInput(session, 'trend_BNF_chapter_paid_practice', selected = "All BNF Chapters")
-    updateSliderInput(session, "trend_Dates_paid_practice", 
-                      value = c(min(practice_formulary_paiddata$paid_calendar_month_and_year),
-                                                                   max(practice_formulary_paiddata$paid_calendar_month_and_year)),
-                                                                    timeFormat="%b %Y")
+    
+    updateSelectInput(session, 'paid_practice_date_min', selected = min(practice_formulary_paiddata$paid_calendar_month_and_year))
+    updateSelectInput(session, 'paid_practice_date_max', selected = max(practice_formulary_paiddata$paid_calendar_month_and_year))
+
     updatePickerInput(session, "trend_measure_paid_practice", selected = "Percentage of formulary items")
     updatePickerInput(session, "trend_paid_practice", selected = unique(practice_formulary_paiddata$practice_name)[1])
   }
@@ -477,15 +466,31 @@ output$paid_cluster_table <- DT::renderDataTable({
 # Dataframe - Practice ----
 
 paid_practice_chartdata <- reactive({
-    make_chartdata(practice_formulary_paiddata, input$trend_paid_practice, 
-                   input$trend_BNF_chapter_paid_practice, input$trend_BNF_section_paid_practice, 
-                   input$trend_BNF_sub_section_paid_practice, input$trend_Dates_paid_practice, 
-                   "practice_name", "paid_calendar_month_and_year")
+    # make_chartdata(practice_formulary_paiddata, input$trend_paid_practice, 
+    #                input$trend_BNF_chapter_paid_practice, input$trend_BNF_section_paid_practice, 
+    #                input$trend_BNF_sub_section_paid_practice, input$trend_Dates_paid_practice, 
+    #                "practice_name", "paid_calendar_month_and_year")
+  
+  #use function from server_functions
+  make_chartdata(df = practice_formulary_paiddata,
+                 geography_select = input$trend_paid_practice,
+                 bnf_chapter_select = input$trend_BNF_chapter_paid_practice,
+                 bnf_section_select = input$trend_BNF_section_paid_practice,
+                 bnf_sub_section_select = input$trend_BNF_sub_section_paid_practice,
+                 dates_select = c(input$paid_practice_date_min, input$paid_practice_date_max), #input$trend_Dates_paid_board,
+                 geography_type = "practice_name",
+                 "paid_calendar_month_and_year")
  
 })
 
 # Plot practice ----
 output$chart_paid_practice  <- renderPlotly({
+  
+  shiny::validate(
+    need(input$paid_practice_date_min < input$paid_practice_date_max, "Minimum date must be less than maximum date")
+    
+  )
+  
   # Ensure the input is available
   req(input$trend_measure_paid_practice)
   
