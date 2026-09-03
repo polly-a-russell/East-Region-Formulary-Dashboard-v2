@@ -53,9 +53,14 @@ bnf_sub_section_selector <- function(df, bnf_chapter_select, bnf_section_select,
 ################################################################################
 #Prepare data for charts ----
 
-make_chartdata <- function(df, geography_select, bnf_chapter_select, 
-                           bnf_section_select, bnf_sub_section_select, 
-                           dates_select, geography_type, dates_type){
+make_chartdata <- function(df, 
+                           geography_select, 
+                           bnf_chapter_select, 
+                           bnf_section_select, 
+                           bnf_sub_section_select, 
+                           dates_select,
+                           geography_type, 
+                           dates_type){
   
   req(bnf_chapter_select)  # Ensure input is initialized
   
@@ -64,8 +69,14 @@ make_chartdata <- function(df, geography_select, bnf_chapter_select,
     filter(df[[geography_type]] %in% geography_select,
           
            BNF_chapter == bnf_chapter_select,
+           
+           
            df[[dates_type]] >= dates_select[1] &
-             df[[dates_type]] <= dates_select[2])
+             df[[dates_type]] <= dates_select[2]
+           
+           
+           
+           )
   
   if (!is.null(bnf_chapter_select) && bnf_chapter_select != "") {
     

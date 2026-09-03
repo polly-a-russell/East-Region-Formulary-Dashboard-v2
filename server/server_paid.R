@@ -65,10 +65,17 @@ observeEvent(
   input$reset_paid_board, {
     
     updateSelectInput(session, 'trend_BNF_chapter_paid_board', selected = "All BNF Chapters")
-    updateSliderInput(session, "trend_Dates_paid_board", 
-                                value = c(min(board_formulary_paiddata$paid_calendar_month_and_year),
-                                 max(board_formulary_paiddata$paid_calendar_month_and_year)),
-                                  timeFormat="%b %Y")
+    
+    updateSelectInput(session, 'paid_board_date_min', selected = min(board_formulary_paiddata$paid_calendar_month_and_year))
+    updateSelectInput(session, 'paid_board_date_max', selected = max(board_formulary_paiddata$paid_calendar_month_and_year))
+    
+    
+    # updateSliderInput(session, "trend_Dates_paid_board", 
+    #                             value = c(min(board_formulary_paiddata$paid_calendar_month_and_year),
+    #                              max(board_formulary_paiddata$paid_calendar_month_and_year)),
+    #                               timeFormat="%b %Y")
+    
+    
     updatePickerInput(session, "trend_measure_paid_board", selected = "Percentage of formulary items")
     updatePickerInput(session, "trend_paid_board", selected = "Region")
     
@@ -79,6 +86,10 @@ observeEvent(
   
   input$reset_paid_cluster, {
     updateSelectInput(session, 'trend_BNF_chapter_paid_cluster', selected = "All BNF Chapters")
+    
+    updateSelectInput(session, 'cluster_formulary_paiddata', selected = min(cluster_formulary_paiddata$paid_calendar_month_and_year))
+    updateSelectInput(session, 'cluster_formulary_paiddata', selected = max(cluster_formulary_paiddata$paid_calendar_month_and_year))
+    
     updateSliderInput(session, "trend_Dates_paid_cluster", 
                               value = c(min(cluster_formulary_paiddata$paid_calendar_month_and_year),
                                                                    max(cluster_formulary_paiddata$paid_calendar_month_and_year)),
@@ -106,16 +117,25 @@ observeEvent(
 paid_board_chartdata <- reactive({
   
   #use function from server_functions
-  make_chartdata(board_formulary_paiddata, input$trend_paid_board, 
-                 input$trend_BNF_chapter_paid_board, input$trend_BNF_section_paid_board, 
-                 input$trend_BNF_sub_section_paid_board, input$trend_Dates_paid_board, 
-                 "NHSBoard", "paid_calendar_month_and_year")
+  make_chartdata(df = board_formulary_paiddata, 
+                 geography_select = input$trend_paid_board, 
+                 bnf_chapter_select = input$trend_BNF_chapter_paid_board, 
+                 bnf_section_select = input$trend_BNF_section_paid_board, 
+                 bnf_sub_section_select = input$trend_BNF_sub_section_paid_board, 
+                 dates_select = c(input$paid_board_date_min, input$paid_board_date_max), #input$trend_Dates_paid_board, 
+                 geography_type = "NHSBoard", 
+                 "paid_calendar_month_and_year")
 })
 
 
 
 # Plot board ----
 output$chart_paid_board  <- renderPlotly({
+  shiny::validate(
+    need(input$paid_board_date_min < input$paid_board_date_max, "Minimum date must be less than maximum date")
+    
+  )
+  
     # Ensure the input is available
   req(input$trend_measure_paid_board)
   
@@ -279,15 +299,27 @@ output$paid_board_table <- DT::renderDataTable({
 # Dataframe - Cluster ----  
 
 paid_cluster_chartdata <- reactive({
-    make_chartdata(cluster_formulary_paiddata, input$trend_paid_cluster, 
-                   input$trend_BNF_chapter_paid_cluster, input$trend_BNF_section_paid_cluster,
-                   input$trend_BNF_sub_section_paid_cluster, input$trend_Dates_paid_cluster,
-                   "cluster", "paid_calendar_month_and_year")
+  
+  #use function from server_functions
+  make_chartdata(df = cluster_formulary_paiddata, 
+                 geography_select = input$trend_paid_cluster, 
+                 bnf_chapter_select = input$trend_BNF_chapter_paid_cluster, 
+                 bnf_section_select = input$trend_BNF_section_paid_cluster, 
+                 bnf_sub_section_select = input$trend_BNF_sub_section_paid_cluster, 
+                 dates_select = c(input$paid_cluster_date_min, input$paid_cluster_date_max), #input$trend_Dates_paid_board, 
+                 geography_type = "cluster", 
+                 "paid_calendar_month_and_year")
 
 })
 
 # Plot cluster ----
 output$chart_paid_cluster  <- renderPlotly({
+  shiny::validate(
+    need(input$paid_cluster_date_min < input$paid_cluster_date_max, "Minimum date must be less than maximum date")
+    
+  )
+  
+  
   # Ensure the input is available
   req(input$trend_measure_paid_cluster)
   

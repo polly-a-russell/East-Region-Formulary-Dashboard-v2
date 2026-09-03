@@ -49,7 +49,7 @@ options(scipen=999,
 ###### Load data
 #compressed files in app/data folder
 #board paid data
-board_formulary_paiddata <- arrow::read_parquet(glue("{data_folder}/hb_paid_data.parquet")) 
+board_formulary_paiddata <- arrow::read_parquet(glue("{data_folder}/hb_paid_data.parquet"))
 
 # 
 # test <- arrow::read_parquet("/PHI_conf/PrescribingBCS/Topics/R_server_pro_projects/SNF/Data/paid_extract_2026-04-16.parquet")
@@ -151,3 +151,31 @@ board_colours  <- function(dataframe){
 
 ##################
 
+
+# date lists ---------------------------------------------------------------
+
+#board_formulary_paiddata$paid_calendar_month_and_year
+list_dates_paid_board_asc <- board_formulary_paiddata %>% 
+  select(paid_calendar_month_and_year) %>% 
+  unique() %>% 
+  arrange(paid_calendar_month_and_year) %>% pull()
+
+list_dates_paid_board_desc <- board_formulary_paiddata %>% 
+  select(paid_calendar_month_and_year) %>% 
+  unique() %>% 
+  arrange(desc(paid_calendar_month_and_year)) %>% pull()
+
+
+
+#cluster_formulary_paiddata$paid_calendar_month_and_year
+list_dates_paid_cluster_asc <- cluster_formulary_paiddata %>% 
+  select(paid_calendar_month_and_year) %>% 
+  unique() %>% 
+  arrange(paid_calendar_month_and_year) %>% pull()
+
+list_dates_paid_cluster_desc <- cluster_formulary_paiddata %>% 
+  select(paid_calendar_month_and_year) %>% 
+  unique() %>% 
+  arrange(desc(paid_calendar_month_and_year)) %>% pull()
+
+          

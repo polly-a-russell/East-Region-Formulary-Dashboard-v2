@@ -72,7 +72,8 @@ mainPanel(width = 12,         #mainPanel needs to come first before conditionalP
               selectInput(
                 inputId = "paid_board_date_min",
                 label = "Select time period start point:",
-                choices = c(1:5),
+                choices = list_dates_paid_board_asc,
+                selected = min(board_formulary_paiddata$paid_calendar_month_and_year),
                 multiple = FALSE,
                 selectize = FALSE
               ), # end selectInput paid_board_date_min
@@ -80,19 +81,11 @@ mainPanel(width = 12,         #mainPanel needs to come first before conditionalP
               selectInput(
                 inputId = "paid_board_date_max",
                 label = "Select time period end point:",
-                choices = c(1:5),
+                choices = list_dates_paid_board_desc,
+                selected = max(board_formulary_paiddata$paid_calendar_month_and_year),
                 multiple = FALSE,
                 selectize = FALSE
-              ), # end selectInput paid_board_date_min
- 
-              sliderInput("trend_Dates_paid_board", 
-              "Select time period:",
-              min = min(board_formulary_paiddata$paid_calendar_month_and_year), #selects minimum date in trenddata.
-              max = max(board_formulary_paiddata$paid_calendar_month_and_year), #selects maximum date in trenddata.
-              value=c(min(board_formulary_paiddata$paid_calendar_month_and_year),
-                      max(board_formulary_paiddata$paid_calendar_month_and_year)), 
-              ticks = FALSE,
-              timeFormat="%b %Y")
+              ) # end selectInput paid_board_date_max
       ),
        
        column(3,   
@@ -176,7 +169,25 @@ mainPanel(width = 12,         #mainPanel needs to come first before conditionalP
                               value=c(min(cluster_formulary_paiddata$paid_calendar_month_and_year),
                                       max(cluster_formulary_paiddata$paid_calendar_month_and_year)), 
                               ticks = FALSE,
-                              timeFormat="%b %Y")
+                              timeFormat="%b %Y"),
+                  
+                  selectInput(
+                    inputId = "paid_cluster_date_min",
+                    label = "Select time period start point:",
+                    choices = list_dates_paid_cluster_asc,
+                    selected = min(cluster_formulary_paiddata$paid_calendar_month_and_year), # change
+                    multiple = FALSE,
+                    selectize = FALSE
+                  ), # end selectInput paid_board_date_min
+                  
+                  selectInput(
+                    inputId = "paid_cluster_date_max",
+                    label = "Select time period end point:",
+                    choices = list_dates_paid_cluster_desc,
+                    selected = max(cluster_formulary_paiddata$paid_calendar_month_and_year), ## change
+                    multiple = FALSE,
+                    selectize = FALSE
+                  ) # end selectInput paid_board_date_max
            ),
           column(3,   
                  pickerInput(

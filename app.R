@@ -85,7 +85,10 @@ ui = fluidPage(
   ) # taglist
   
 )
-###########INCLUDE NEXT LINE FOR PASSWORD AUTHORISATION####################   
+
+
+
+###########INCLUDE NEXT LINE FOR PASSWORD AUTHORISATION####################   agr
 
 ui <- secure_app(ui, choose_language = TRUE)
 ################################################################################
@@ -95,7 +98,7 @@ ui <- secure_app(ui, choose_language = TRUE)
 # SERVER --------
 
 # Define server logic --------
-server <- function(input, output, session) { 
+server <- function(input, output, session) {
   
   
   # CALL SERVER SCRIPTS 

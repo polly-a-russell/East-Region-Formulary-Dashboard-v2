@@ -18,14 +18,22 @@ ui <- fluidPage(
     # Sidebar with a slider input for number of bins 
     sidebarLayout(
         sidebarPanel(
-            sliderInput("bins",
+            sliderInput("sliderinput",
                         "Number of bins:",
                         min = 1,
                         max = 50,
-                        value = 30),
+                        value = c(30,40)),
             
             selectInput(
               inputId = "paid_board_date_min",
+              label = "Select time period start point:",
+              choices = c(1:5),
+              multiple = FALSE,
+              selectize = FALSE
+            ), # end selectInput paid_board_date_min
+            
+            selectInput(
+              inputId = "paid_board_date_max",
               label = "Select time period start point:",
               choices = c(1:5),
               multiple = FALSE,
@@ -35,7 +43,8 @@ ui <- fluidPage(
 
         # Show a plot of the generated distribution
         mainPanel(
-           plotOutput("distPlot")
+          verbatimTextOutput("sliderout"),
+          verbatimTextOutput("selectout")
         )
     )
 )
@@ -43,16 +52,8 @@ ui <- fluidPage(
 # Define server logic required to draw a histogram
 server <- function(input, output) {
 
-    output$distPlot <- renderPlot({
-        # generate bins based on input$bins from ui.R
-        x    <- faithful[, 2]
-        bins <- seq(min(x), max(x), length.out = input$bins + 1)
-
-        # draw the histogram with the specified number of bins
-        hist(x, breaks = bins, col = 'darkgray', border = 'white',
-             xlab = 'Waiting time to next eruption (in mins)',
-             main = 'Histogram of waiting times')
-    })
+  output$sliderout <- renderText({ input$sliderinput })
+  output$selectout <- renderText({ c(input$paid_board_date_min, input$paid_board_date_max) })
 }
 
 # Run the application 

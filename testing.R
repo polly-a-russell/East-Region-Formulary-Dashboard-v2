@@ -1,21 +1,35 @@
-#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-# RStudio Workbench is strictly for use by Public Health Scotland staff and     
-# authorised users only, and is governed by an <Acceptable Usage Policy>.
-#
-# This is a shared resource and is hosted on a pay-as-you-go cloud computing
-# platform.  Your usage will incur direct financial cost to Public Health
-# Scotland.  As such, please ensure
-#
-#   1. that this session is appropriately sized with the minimum number of CPUs
-#      and memory required for the size and scale of your analysis;
-#   2. the code you write in this script is optimal and only writes out the
-#      data required, nothing more.
-#   3. you close this session when not in use; idle sessions still cost PHS
-#      money!
-#
-# For further guidance, please see <insert link>.
-#
-#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+selectInput(
+  inputId = "paid_board_date_min",  ##change
+  label = "Select time period start point:",
+  choices = list_dates_paid_board_asc, ## change
+  selected = min(board_formulary_paiddata$paid_calendar_month_and_year),  ## change
+  multiple = FALSE,
+  selectize = FALSE
+), # end selectInput paid_board_date_min
+
+selectInput(
+  inputId = "paid_board_date_max",  ##change
+  label = "Select time period end point:",
+  choices = list_dates_paid_board_desc,  ##change
+  selected = max(board_formulary_paiddata$paid_calendar_month_and_year),  ##change
+  multiple = FALSE,
+  selectize = FALSE
+) # end selectInput paid_board_date_max
 
 
-#lkfdgkjggikugkjskjhg
+
+#use function from server_functions
+make_chartdata(df = board_formulary_paiddata, 
+               geography_select = input$trend_paid_board, 
+               bnf_chapter_select = input$trend_BNF_chapter_paid_board, 
+               bnf_section_select = input$trend_BNF_section_paid_board, 
+               bnf_sub_section_select = input$trend_BNF_sub_section_paid_board, 
+               dates_select = c(input$paid_board_date_min, input$paid_board_date_max), #input$trend_Dates_paid_board, 
+               geography_type = "NHSBoard", 
+               "paid_calendar_month_and_year")
+
+
+shiny::validate(
+  need(input$paid_board_date_min < input$paid_board_date_max, "Minimum date must be less than maximum date")
+  
+)
