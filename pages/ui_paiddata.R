@@ -65,8 +65,12 @@ mainPanel(width = 12,         #mainPanel needs to come first before conditionalP
                choices =   bnf_chapter_choices,# list of 'choices' in setup.R.
                selected = "All BNF Chapters",
                selectize = FALSE,
-               multiple = FALSE)
-            ),
+               multiple = FALSE),
+              
+              uiOutput(outputId = 'bnf_section_paid_board_select'),
+              uiOutput(outputId = 'bnfsubsection_paid_board_select') #select input defined in server  
+            ), # end column
+       
        column(3, 
               
               selectInput(
@@ -94,38 +98,30 @@ mainPanel(width = 12,         #mainPanel needs to come first before conditionalP
                  label = "Select measure(s): ",
                  choices = c("Percentage of formulary items", "Cost per treated patient"),
                  selected = "Percentage of formulary items",
-                 multiple = TRUE)
-      ),
+                 multiple = TRUE),
+              
+              pickerInput(
+                inputId = "trend_paid_board",
+                label = "Show NHS Board(s): ", 
+                choices = unique(as.character(board_formulary_paiddata$NHSBoard)),
+                selected = "Region",
+                options = list(
+                  `actions-box` = TRUE), ##buttons to the top of the dropdown menu (Select All & Deselect All)
+                multiple = TRUE
+              ) #end pickerInput
+              
+              
+              
+              
+              ),
+      
       column(3,
              p(HTML("&nbsp;")),
              actionButton("reset_paid_board", "Reset input") 
       )
       
-     ),
-    
-     fluidRow(  
-       
-        column(3,                    
-             uiOutput(outputId = 'bnf_section_paid_board_select') 
+     ), #endfluidrow board select Inputs
 
-      ),
-          column(3,                    
-              uiOutput(outputId = 'bnfsubsection_paid_board_select') #select input defined in server    
-          ),
-      
-     column(3,     
-              pickerInput(
-               inputId = "trend_paid_board",
-               label = "Show NHS Board(s): ", 
-               choices = unique(as.character(board_formulary_paiddata$NHSBoard)),
-               selected = "Region",
-               options = list(
-                 `actions-box` = TRUE), ##buttons to the top of the dropdown menu (Select All & Deselect All)
-               multiple = TRUE
-             )
-      )
-     ###
-    ),
 
     fluidRow(align="center",
                 uiOutput("paid_board_plot_title"),
@@ -140,7 +136,7 @@ mainPanel(width = 12,         #mainPanel needs to come first before conditionalP
                 downloadButton("download_paid_board", "Download data"),
 
         )
-      ), # conditionalpanel
+      ), # conditionalpanel condition= "input.paid_select == 'NHS Board'"
 
 
 # Cluster ----
@@ -156,20 +152,13 @@ mainPanel(width = 12,         #mainPanel needs to come first before conditionalP
                 label = 'Select BNF Chapter:',
                 choices =  bnf_chapter_choices, 
                 selectize = FALSE,
-                multiple = FALSE)
+                multiple = FALSE),
+              uiOutput(outputId = 'bnf_section_paid_cluster_select'),
+              uiOutput(outputId = 'bnfsubsection_paid_cluster_select') #select input defined in server
            
            ),
            column(3, 
                   #slider for dates.
-                    
-                  sliderInput("trend_Dates_paid_cluster", 
-                              "Select time period:",
-                              min = min(cluster_formulary_paiddata$paid_calendar_month_and_year), #selects minimum date in trenddata.
-                              max = max(cluster_formulary_paiddata$paid_calendar_month_and_year), #selects maximum date in trenddata.
-                              value=c(min(cluster_formulary_paiddata$paid_calendar_month_and_year),
-                                      max(cluster_formulary_paiddata$paid_calendar_month_and_year)), 
-                              ticks = FALSE,
-                              timeFormat="%b %Y"),
                   
                   selectInput(
                     inputId = "paid_cluster_date_min",
@@ -195,6 +184,15 @@ mainPanel(width = 12,         #mainPanel needs to come first before conditionalP
                    label = "Select measure(s): ",
                    choices = c("Percentage of formulary items", "Cost per treated patient"),
                    selected = "Percentage of formulary items",
+                   multiple = TRUE),
+                 
+                 pickerInput(
+                   inputId = "trend_paid_cluster",
+                   label = "Show cluster(s): ", 
+                   choices = unique(as.character(cluster_formulary_paiddata$cluster)),
+                   selected = unique(cluster_formulary_paiddata$cluster)[1],
+                   options = list(
+                     `actions-box` = TRUE), ##buttons to the top of the dropdown menu (Select All & Deselect All)
                    multiple = TRUE)
           ),
           column(3,
@@ -203,30 +201,12 @@ mainPanel(width = 12,         #mainPanel needs to come first before conditionalP
                  actionButton("reset_paid_cluster", "Reset input") 
           )
           
-         ),
-       fluidRow( 
-            column(3,                    
-                   uiOutput(outputId = 'bnf_section_paid_cluster_select') 
-            ),
-          
-           column(3,                    
-                  uiOutput(outputId = 'bnfsubsection_paid_cluster_select') #select input defined in server
-                  
-           ),
-            column(3,
-                   
-                   pickerInput(
-                     inputId = "trend_paid_cluster",
-                     label = "Show cluster(s): ", 
-                     choices = unique(as.character(cluster_formulary_paiddata$cluster)),
-                     selected = unique(cluster_formulary_paiddata$cluster)[1],
-                     options = list(
-                       `actions-box` = TRUE), ##buttons to the top of the dropdown menu (Select All & Deselect All)
-                     multiple = TRUE)
-            )
-           
-        ),
+         ), #end fluidrow select inputs cluster
       
+       
+       
+       
+       
         fluidRow(align="center",
                  uiOutput("paid_cluster_plot_title"),
                  
@@ -239,7 +219,7 @@ mainPanel(width = 12,         #mainPanel needs to come first before conditionalP
         fluidRow(
               downloadButton("download_paid_cluster", "Download data")
         )
-       ), 
+       ), #end conditionalpanel condition= "input.paid_select == 'GP Cluster'",
  
 # GP Practice ----
      conditionalPanel(
@@ -253,7 +233,10 @@ mainPanel(width = 12,         #mainPanel needs to come first before conditionalP
                   label = 'Select BNF Chapter:',
                   choices =  bnf_chapter_choices, 
                   selectize = FALSE,
-                  multiple = FALSE)
+                  multiple = FALSE),
+                
+                uiOutput(outputId = 'bnf_section_paid_practice_select') ,
+                uiOutput(outputId = 'bnfsubsection_paid_practice_select') #select input defined in server
       
          ),
          column(3, 
@@ -284,26 +267,7 @@ mainPanel(width = 12,         #mainPanel needs to come first before conditionalP
                   label = "Select measure(s): ",
                   choices = c("Percentage of formulary items",  "Cost per treated patient"),
                   selected = "Percentage of formulary items",
-                  multiple = TRUE)
-         ),
-         column(3,
-                
-                p(HTML("&nbsp;")),
-                actionButton("reset_paid_practice", "Reset input") 
-         )
-         
-       ),
-          fluidRow(  
-            
-            column(3,                    
-                uiOutput(outputId = 'bnf_section_paid_practice_select') 
-            ),
-       
-          column(3,                    
-                 uiOutput(outputId = 'bnfsubsection_paid_practice_select') #select input defined in server
-                 
-            ),
-         column(3,
+                  multiple = TRUE),
                 
                 pickerInput(
                   inputId = "trend_paid_practice",
@@ -314,6 +278,27 @@ mainPanel(width = 12,         #mainPanel needs to come first before conditionalP
                     `actions-box` = TRUE), ##buttons to the top of the dropdown menu (Select All & Deselect All)
                   multiple = TRUE
                 )
+         ),
+         column(3,
+                
+                p(HTML("&nbsp;")),
+                actionButton("reset_paid_practice", "Reset input") 
+         )
+         
+       ), #end fluidrow select inputs cluster
+       
+       
+          fluidRow(  
+            
+            column(3                  
+                
+            ),
+       
+          column(3
+
+                 
+            ),
+         column(3
          )
         
        ),
