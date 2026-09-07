@@ -223,16 +223,7 @@ ui_eprescribing <- tabPanel(title = "E-Prescribing data",
                      uiOutput(outputId = 'trend_bnf_section_epr_practice'),
                      uiOutput(outputId = 'trend_bnf_sub_section_epr_practice')
               ),
-              column(3, 
-                     sliderInput(
-                       "trend_Dates_epr_practice",
-                       "Select time period (weeks):",
-                       min = min(practice_formulary_eprescribingdata$week), #selects minimum date in trenddata.
-                       max = max(practice_formulary_eprescribingdata$week), #selects maximum date in trenddata.
-                       value=c(min(practice_formulary_eprescribingdata$week),
-                               max(practice_formulary_eprescribingdata$week)),
-                       ticks = FALSE,
-                       timeFormat="%d %b %Y"),
+              column(3,
                      
                      selectInput(
                        inputId = "epresc_gp_date_min",  ##change
