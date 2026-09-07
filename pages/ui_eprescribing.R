@@ -65,7 +65,10 @@ ui_eprescribing <- tabPanel(title = "E-Prescribing data",
                          label = 'Select BNF Chapter:',
                          choices =  bnf_chapter_choices, # list of 'choices' in setup.R
                          selectize = FALSE,
-                         multiple = FALSE)
+                         multiple = FALSE), 
+                       
+                       uiOutput(outputId = 'trend_bnf_section_eprescribing'),
+                       uiOutput(outputId = 'trend_bnf_sub_section_eprescribing')
                 ),
                 column(3, 
                         
@@ -97,15 +100,7 @@ ui_eprescribing <- tabPanel(title = "E-Prescribing data",
                 )
                  ),
               
-              fluidRow(  
-                column(3, 
-                      uiOutput(outputId = 'trend_bnf_section_eprescribing')
-                ),
-                column(3, 
-                       uiOutput(outputId = 'trend_bnf_sub_section_eprescribing')
-                )
-                  
-                   ),
+              
              
               fluidRow(align="center",
                withSpinner(uiOutput(outputId = "eprescribing_plot_title")),
@@ -139,6 +134,9 @@ ui_eprescribing <- tabPanel(title = "E-Prescribing data",
                          choices =  bnf_chapter_choices, # list of 'choices' in setup.R
                          selectize = FALSE,
                          multiple = FALSE),
+                       
+                       uiOutput(outputId = 'trend_bnf_section_epr_cluster'),
+                       uiOutput(outputId = 'trend_bnf_sub_section_epr_cluster')
                 ),
                 column(3, 
                        sliderInput(
@@ -168,16 +166,7 @@ ui_eprescribing <- tabPanel(title = "E-Prescribing data",
                 )
              ),
             
-                fluidRow(
-                column(3, 
-                    uiOutput(outputId = 'trend_bnf_section_epr_cluster')
-                ),
-      
-                column(3,
-                     uiOutput(outputId = 'trend_bnf_sub_section_epr_cluster')
-                       )
-               
-              ),
+                
               
              fluidRow(align="center",
                withSpinner(uiOutput(outputId = "epr_cluster_plot_title")),
@@ -197,7 +186,7 @@ ui_eprescribing <- tabPanel(title = "E-Prescribing data",
               )
           ),
           
-    ###GP PRACTICE  -----
+    #GP PRACTICE  -----
     
           conditionalPanel(
             condition= "input.epresc_select == 'GP Practice'",
@@ -210,6 +199,9 @@ ui_eprescribing <- tabPanel(title = "E-Prescribing data",
                        choices =  bnf_chapter_choices, # list of 'choices' in setup.R
                        selectize = FALSE,
                        multiple = FALSE),
+                     
+                     uiOutput(outputId = 'trend_bnf_section_epr_practice'),
+                     uiOutput(outputId = 'trend_bnf_sub_section_epr_practice')
               ),
               column(3, 
                      sliderInput(
@@ -238,16 +230,7 @@ ui_eprescribing <- tabPanel(title = "E-Prescribing data",
               )
               ),
              
-              fluidRow(
-                column(3, 
-                     uiOutput(outputId = 'trend_bnf_section_epr_practice')
-              ),
-            
-              column(3, 
-                     uiOutput(outputId = 'trend_bnf_sub_section_epr_practice')
-              )
-             
-            ),
+              
             
             fluidRow(align="center",
                      withSpinner(uiOutput(outputId = "epr_practice_plot_title")),

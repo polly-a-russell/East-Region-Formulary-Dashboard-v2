@@ -40,7 +40,9 @@ ui_top10 <- tabPanel(title = "Top 20 Non-Formulary Items",
                          choices =  bnf_chapter_choices, 
                          selected = "All BNF Chapters",
                          selectize = FALSE,
-                         multiple = FALSE)
+                         multiple = FALSE),
+                       uiOutput("bnf_section_top_select"),
+                       uiOutput("bnf_sub_section_top_select")
                 ),
                 column(3,  
                        selectInput(
@@ -56,7 +58,14 @@ ui_top10 <- tabPanel(title = "Top 20 Non-Formulary Items",
                          label = "Select Measure:",
                          choices =  unique(as.character(top_non_formulary_paid$rank_by)), 
                          selected = "Number of Items",
-                         multiple = FALSE)
+                         multiple = FALSE),
+                       
+                       selectInput(
+                         inputId = 'top_board',
+                         label = 'Select NHS Board:',
+                         choices =  unique(as.character(top_non_formulary_paid$NHSBoard)), 
+                         selected = "Region",
+                         multiple= FALSE)
                 ),
                 column(3,
                        p(HTML("&nbsp;")),
@@ -64,24 +73,6 @@ ui_top10 <- tabPanel(title = "Top 20 Non-Formulary Items",
                 )
                 
             ),
-            fluidRow(
-                  column(3,      
-                         uiOutput("bnf_section_top_select")
-                  ),
-            column(3,                    
-                   uiOutput("bnf_sub_section_top_select")
-            ),
-              column(3,  
-                     selectInput(
-                       inputId = 'top_board',
-                       label = 'Select NHS Board:',
-                       choices =  unique(as.character(top_non_formulary_paid$NHSBoard)), 
-                       selected = "Region",
-                       multiple= FALSE)
-              )
-               ###  
-             
-            ),  
 
               fluidRow(align="center",
                              uiOutput("top_plot_title")
