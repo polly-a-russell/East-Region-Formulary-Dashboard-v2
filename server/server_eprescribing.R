@@ -34,9 +34,12 @@ output$trend_bnf_sub_section_epr_practice <- renderUI({
 observeEvent(
   input$reset_epr_board, {
     updateSelectInput(session, 'trend_bnf_chapter_eprescribing', selected = "All BNF Chapters")
-    updateSliderInput(session, "trend_Dates_eprescribing", value = c(min(board_formulary_eprescribingdata$week),
-                                                                   max(board_formulary_eprescribingdata$week)),
-                                                                    timeFormat="%d %b %Y")
+    
+    
+    updateSelectInput(session, 'epresc_board_date_min', selected = min(board_formulary_eprescribingdata$week))
+    updateSelectInput(session, 'epresc_board_date_max', selected = max(board_formulary_eprescribingdata$week))
+    
+    
     updatePickerInput(session, "trend_eprescribing_board", selected = "Region")
   }
 )
@@ -44,9 +47,15 @@ observeEvent(
 observeEvent(
   input$reset_epr_cluster, {
     updateSelectInput(session, 'trend_bnf_chapter_epr_cluster', selected = "All BNF Chapters")
-    updateSliderInput(session, "trend_Dates_epr_cluster", value = c(min(cluster_formulary_eprescribingdata$week),
-                                                                     max(cluster_formulary_eprescribingdata$week)),
-                                                                    timeFormat="%d %b %Y")
+    
+    
+    # updateSliderInput(session, "trend_Dates_epr_cluster", value = c(min(cluster_formulary_eprescribingdata$week),
+    #                                                                  max(cluster_formulary_eprescribingdata$week)),
+    #                                                                 timeFormat="%d %b %Y")
+    
+    updateSelectInput(session, 'epresc_cluster_date_min', selected = min(cluster_formulary_eprescribingdata$week))
+    updateSelectInput(session, 'epresc_cluster_date_max', selected = max(cluster_formulary_eprescribingdata$week))
+    
     updatePickerInput(session, "trend_eprescribing_cluster", selected = unique(cluster_formulary_eprescribingdata$cluster)[1])
   }
 )
@@ -66,19 +75,33 @@ observeEvent(
 
 epr_board_chartdata <- reactive({
   
-  make_chartdata(board_formulary_eprescribingdata, input$trend_eprescribing_board, 
-                 input$trend_bnf_chapter_eprescribing, input$trend_bnf_section_eprescribing, 
-                 input$trend_bnf_sub_section_eprescribing, input$trend_Dates_eprescribing, 
-                 "NHSBoard", "week")
+  
+  make_chartdata(df = board_formulary_eprescribingdata,
+                 geography_select = input$trend_eprescribing_board,
+                 bnf_chapter_select = input$trend_bnf_chapter_eprescribing,
+                 bnf_section_select = input$trend_bnf_section_eprescribing,
+                 bnf_sub_section_select = input$trend_bnf_sub_section_eprescribing,
+                 dates_select = c(input$epresc_board_date_min, input$epresc_board_date_max), #input$trend_Dates_paid_board,
+                 geography_type = "NHSBoard",
+                 "week")
 })
 
 # Cluster data ----
 
 epr_cluster_chartdata <- reactive({
-  make_chartdata(cluster_formulary_eprescribingdata, input$trend_eprescribing_cluster, 
-                 input$trend_bnf_chapter_epr_cluster, input$trend_bnf_section_epr_cluster, 
-                 input$trend_bnf_sub_section_epr_cluster, input$trend_Dates_epr_cluster, 
-                 "cluster", "week")
+  # make_chartdata(cluster_formulary_eprescribingdata, input$trend_eprescribing_cluster, 
+  #                input$trend_bnf_chapter_epr_cluster, input$trend_bnf_section_epr_cluster, 
+  #                input$trend_bnf_sub_section_epr_cluster, input$trend_Dates_epr_cluster, 
+  #                "cluster", "week")
+  
+  make_chartdata(df = cluster_formulary_eprescribingdata,
+                 geography_select = input$trend_eprescribing_cluster,
+                 bnf_chapter_select = input$trend_bnf_chapter_epr_cluster,
+                 bnf_section_select = input$trend_bnf_section_epr_cluster,
+                 bnf_sub_section_select = input$trend_bnf_sub_section_epr_cluster,
+                 dates_select = c(input$epresc_cluster_date_min, input$epresc_cluster_date_max), #input$trend_Dates_paid_board,
+                 geography_type = "cluster",
+                 "week")
  
 })
 
@@ -99,6 +122,11 @@ epr_practice_chartdata <- reactive({
 
 ##Board
 output$trendchart_eprescribing  <- renderPlotly({
+  
+  shiny::validate(
+    need(input$epresc_board_date_min < input$epresc_board_date_max, "Minimum date must be less than maximum date")
+
+  )
   
   data <- epr_board_chartdata()
   req(nrow(data) > 0)  # Ensure data has rows
@@ -125,6 +153,11 @@ output$trendchart_eprescribing  <- renderPlotly({
 })
 ##Cluster
 output$trendchart_epr_cluster  <- renderPlotly({
+  
+  shiny::validate(
+    need(input$epresc_cluster_date_min < input$epresc_cluster_date_max, "Minimum date must be less than maximum date")
+
+  )
 
   data <- epr_cluster_chartdata()
   req(nrow(data) > 0)  # Ensure data has rows

@@ -191,4 +191,41 @@ list_dates_paid_practice_desc <- practice_formulary_paiddata %>%
   unique() %>%
   arrange(desc(paid_calendar_month_and_year)) %>% pull()
 
+
+
+#board_formulary_eprescribingdata$week
+list_dates_epresc_board_asc <- board_formulary_eprescribingdata %>%
+  select(week) %>%
+  unique() %>%
+  arrange(week) %>% pull()
+
+list_dates_epresc_board_desc <- board_formulary_eprescribingdata %>%
+  select(week) %>%
+  unique() %>%
+  arrange(desc(week)) %>% pull()
+
+
+# cluster_formulary_eprescribingdata
+
+list_dates_epresc_cluster_asc <- cluster_formulary_eprescribingdata %>%
+  select(week) %>%
+  unique() %>%
+  arrange(week) %>% pull()
+
+list_dates_epresc_cluster_desc <- cluster_formulary_eprescribingdata %>%
+  select(week) %>%
+  unique() %>%
+  arrange(desc(week)) %>% pull()
+
+#epresc practice
+
+list_dates_epresc_gp_asc <- practice_formulary_eprescribingdata %>%
+  select(week) %>%
+  unique() %>%
+  arrange(week) %>% pull()
+
+list_dates_epresc_gp_desc <- practice_formulary_eprescribingdata %>%
+  select(week) %>%
+  unique() %>%
+  arrange(desc(week)) %>% pull()
           

@@ -72,15 +72,26 @@ ui_eprescribing <- tabPanel(title = "E-Prescribing data",
                 ),
                 column(3, 
                         
-                       sliderInput(
-                         "trend_Dates_eprescribing",
-                         "Select time period (weeks):",
-                         min = min(board_formulary_eprescribingdata$week), #selects minimum date in trenddata.
-                         max = max(board_formulary_eprescribingdata$week), #selects maximum date in trenddata.
-                         value=c(min(board_formulary_eprescribingdata$week),
-                                 max(board_formulary_eprescribingdata$week)),
-                         ticks = FALSE,
-                         timeFormat="%d %b %Y")
+                       
+                       
+                       
+                       selectInput(
+                         inputId = "epresc_board_date_min",  ##change
+                         label = "Select time period start point:",
+                         choices = list_dates_epresc_board_asc, ## change
+                         selected = min(board_formulary_eprescribingdata$week),  ## change
+                         multiple = FALSE,
+                         selectize = FALSE
+                       ), # end selectInput epresc_board_date_min
+
+                       selectInput(
+                         inputId = "epresc_board_date_max",  ##change
+                         label = "Select time period end point:",
+                         choices = list_dates_epresc_board_desc,  ##change
+                         selected = max(board_formulary_eprescribingdata$week),  ##change
+                         multiple = FALSE,
+                         selectize = FALSE
+                       ) # end selectInput epresc_board_date_max
                 ),
                 column(3,
                        pickerInput(
@@ -138,16 +149,25 @@ ui_eprescribing <- tabPanel(title = "E-Prescribing data",
                        uiOutput(outputId = 'trend_bnf_section_epr_cluster'),
                        uiOutput(outputId = 'trend_bnf_sub_section_epr_cluster')
                 ),
-                column(3, 
-                       sliderInput(
-                         "trend_Dates_epr_cluster",
-                         "Select time period (weeks):",
-                         min = min(cluster_formulary_eprescribingdata$week), #selects minimum date in trenddata.
-                         max = max(cluster_formulary_eprescribingdata$week), #selects maximum date in trenddata.
-                         value=c(min(cluster_formulary_eprescribingdata$week),
-                                 max(cluster_formulary_eprescribingdata$week)),
-                         ticks = FALSE,
-                         timeFormat="%d %b %Y")
+                column(3,
+                       
+                       selectInput(
+                         inputId = "epresc_cluster_date_min",  ##change
+                         label = "Select time period start point:",
+                         choices = list_dates_epresc_cluster_asc, ## change
+                         selected = min(cluster_formulary_eprescribingdata$week),  ## change
+                         multiple = FALSE,
+                         selectize = FALSE
+                       ), # end selectInput epresc_board_date_min
+
+                       selectInput(
+                         inputId = "epresc_cluster_date_max",  ##change
+                         label = "Select time period end point:",
+                         choices = list_dates_epresc_cluster_desc,  ##change
+                         selected = max(cluster_formulary_eprescribingdata$week),  ##change
+                         multiple = FALSE,
+                         selectize = FALSE
+                       ) # end selectInput epresc_board_date_max
                 ),
                 column(3,
                        pickerInput(
@@ -212,7 +232,26 @@ ui_eprescribing <- tabPanel(title = "E-Prescribing data",
                        value=c(min(practice_formulary_eprescribingdata$week),
                                max(practice_formulary_eprescribingdata$week)),
                        ticks = FALSE,
-                       timeFormat="%d %b %Y")
+                       timeFormat="%d %b %Y"),
+                     
+                     selectInput(
+                       inputId = "epresc_gp_date_min",  ##change
+                       label = "Select time period start point:",
+                       choices = list_dates_epresc_gp_asc, ## change
+                       selected = min(practice_formulary_eprescribingdata$week),  ## change
+                       multiple = FALSE,
+                       selectize = FALSE
+                     ), # end selectInput epresc_board_date_min
+
+                     selectInput(
+                       inputId = "epresc_gp_date_max",  ##change
+                       label = "Select time period end point:",
+                       choices = list_dates_epresc_gp_desc,  ##change
+                       selected = max(practice_formulary_eprescribingdata$week),  ##change
+                       multiple = FALSE,
+                       selectize = FALSE
+                     ) # end selectInput epresc_board_date_max
+                     
               ),
               column(3,
                      pickerInput(
