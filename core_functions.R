@@ -20,16 +20,18 @@ make_table <- function(input_data_table,
   table_colnames  <-  gsub("formulary", "Formulary", table_colnames)
   table_colnames <- paste(toupper(substr(table_colnames, 1, 1)), substr(table_colnames, 2, nchar(table_colnames)), sep="")
                                           
-  dt <- DT::datatable(input_data_table, style = 'bootstrap',
+  dt <- DT::datatable(input_data_table, 
+                      style = 'bootstrap',
                       class = 'table-condensed',
                       rownames = FALSE,
                       filter = "top",
                       colnames = table_colnames,
                       extensions = 'FixedHeader',
-                      options = list(pageLength = rows_to_display,
+                      options = list(#pageLength = rows_to_display,
+                                     lengthMenu = c(10, 15, 20, 50, 500),
                                      scrollX = FALSE,
                                      scrollY = FALSE,
-                                     dom = 'tp',
+                                     dom = 'Blfrtip', #'tp',
                                      autoWidth = TRUE,
                                      fixedHeader = FALSE,
                                      # style header
