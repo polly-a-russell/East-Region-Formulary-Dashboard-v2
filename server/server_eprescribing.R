@@ -258,7 +258,8 @@ output$epr_board_table <- DT::renderDataTable({
                rename(`Week beginning` = week) %>% 
                select(-c(bnf_level, formulary_items, items)) %>% 
                relocate(`Week beginning` ))
-})
+}#, options = list(lengthMenu = c(10, 15, 20, 50, 100))
+)
 
 #Cluster
   

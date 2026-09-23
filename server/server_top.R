@@ -157,7 +157,7 @@ metric_text_top <- reactive({
   if(input$measure_top == "Number of Items") {
     text <- "Number of Items"
   } else {
-    text <- "Total Cost per Treated Patient (£)" 
+    text <- "Total Gross Ingredient Cost (£)" 
   }
   return(text)
 
@@ -219,7 +219,9 @@ output$top_table <- DT::renderDataTable({
   top_table$`Product Name` <- sapply(top_table$`Product Name`,
                            FUN = function(x) str_replace(x,  "μg", "MICROGRAMS"))
   
-  make_table(top_table)
+  make_table(top_table) %>% 
+    formatRound(columns = c("Number of Items"), digits = 0) %>% 
+    formatRound(columns = c("Gross Ingredient Cost (£)"))
 })
 
 
@@ -249,7 +251,7 @@ observeEvent(input$top_more_info, {
     based on Paid data (from PIS).<br>",
     
    "Number of items ranks items by number of paid items 
-    and Cost ranks medications by highest total cost per treated patient.<br>",
+    and Cost ranks medications by highest total gross ingredient cost.<br>",
   
    "The cost measure is calculated as the sum of GIC (Gross Ingredient Cost, excl. Broken Bulk) divided 
    by the number of patients prescribed the medicines in question.<br>",
