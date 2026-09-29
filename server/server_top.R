@@ -140,7 +140,7 @@ output$top_chart  <- renderPlotly({
           layout(
             yaxis = list(title = "", dtick = 0.5,
                          categoryorder = "total ascending"),
-            xaxis = list(title = 'Total cost  per Treated Patient (£)'),
+            xaxis = list(title = 'Total Gross Ingredient Cost (£)'),
             margin = list(left = -500, #right= -200,
                           pad= 10)
             

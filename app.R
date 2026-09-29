@@ -115,8 +115,8 @@ server <- function(input, output, session) {
   })
   
   # Import authentication credentials
-  credentials <- readRDS("admin/credentials12.rds")
-  # credentials <- readRDS("admin/credentials.RDS")
+  #credentials <- readRDS("admin/credentials12.rds")
+  credentials <- readRDS("admin/credentials.RDS")
   
   # Apply shinymanager authentication
   res_auth <- secure_server(check_credentials = check_credentials(credentials))
